@@ -14,32 +14,62 @@ namespace ServiceLayerTests
     [TestClass]
     public class StudentServiceTests
     {
-        
-        public StudentServiceTests() {
-            
-        }
-        
-        [TestMethod]
-        public async Task TestGdtGetStudentGrades_HasData()
+        private IQueryable<Student> students;
+        private IQueryable<Grade> grades;
+        private Repository<Student> studentRepo;
+        private Repository<Grade> gradeRepo;
+        public StudentServiceTests()
         {
-            var studentQueryable = new List<Student> {
-                new Student { StudentID = 1, StudentName  ="Hieu", GradeId = 1},
-                new Student { StudentID = 2, StudentName  ="Hieu", GradeId = 1}
-            }.AsQueryable() ;
-
-            var gradeQueryable = new List<Grade> {
-                new Grade {  GradeId = 1, GradeName = "Grade 1"}
+            students = new List<Student> {
+                new Student { StudentID = 1, StudentName = "Hieu", GradeId = 1},
+                new Student { StudentID = 2, StudentName = "Huy", GradeId = 1}
             }.AsQueryable();
 
-            var studentDbSetMock = studentQueryable.AsAsyncMock();
-            var gradeDbSetMock = gradeQueryable.AsAsyncMock();
+            grades = new List<Grade> {
+                new Grade {  GradeId = 1, GradeName = "Grade 1"}
+            }.AsQueryable();
+        }
+
+        private void SetupData()
+        {
+
+            var studentDbSetMock = students.AsAsyncMock();
+            var gradeDbSetMock = grades.AsAsyncMock();
 
             var mockContext = new Mock<SchoolContext>();
             mockContext.Setup(c => c.Set<Student>()).Returns(studentDbSetMock.Object);
             mockContext.Setup(c => c.Set<Grade>()).Returns(gradeDbSetMock.Object);
 
-            var studentRepo = new Repository<Student>(mockContext.Object);
-            var gradeRepo = new Repository<Grade>(mockContext.Object);
+            studentRepo = new Repository<Student>(mockContext.Object);
+            gradeRepo = new Repository<Grade>(mockContext.Object);
+        }
+
+        [TestMethod]
+        public async Task GetStudentById_ReturnNull()
+        {
+            SetupData();
+
+            var service = new StudentService(gradeRepo, studentRepo);
+            var result = await service.GetStudentById(0);
+
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public async Task GetStudentById_ReturnData()
+        {
+            SetupData();
+
+            var service = new StudentService(gradeRepo, studentRepo);
+            var result = await service.GetStudentById(1);
+
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public async Task TestGdtGetStudentGrades_HasData()
+        {
+            SetupData();
 
             var service = new StudentService(gradeRepo, studentRepo);
 

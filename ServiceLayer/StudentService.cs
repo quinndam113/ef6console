@@ -27,5 +27,15 @@ namespace ServiceLayer
                    .Select(x => new StudentGradeDto { StudentID = x.student.StudentID, StudentName = x.student.StudentName,  GradeName = x.grade.GradeName, GradeId = x.grade.GradeId })
                    .ToListAsync();
         }
+
+        public async Task<StudentDto> GetStudentById(int id)
+        {
+            if(id == 0)
+            {
+                return null;
+            }
+
+            return await _studentRepo.Queryable().Where(x => x.StudentID == id).Select(x => new StudentDto { StudentID = x.StudentID, StudentName = x.StudentName }).FirstOrDefaultAsync();    
+        }
     }
 }
