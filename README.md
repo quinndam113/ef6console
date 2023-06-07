@@ -2,6 +2,8 @@
 
 EF6.0 .Net Framework with MSTest + Coverage by Fine code Coverages
 
+https://github.com/FortuneN/FineCodeCoverage/
+
 Some Config
 ![Coverage](https://github.com/quinndam113/ef6console/raw/master/Config-FineCodeCoverage-Exclude.png)
 
