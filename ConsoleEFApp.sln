@@ -19,6 +19,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{63D51489
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceLayerTests", "ServiceLayerTests\ServiceLayerTests.csproj", "{7C1779C3-A4A2-471C-BB94-BDE57723AFEC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E7B91EF8-0553-4411-9A3D-14A7F63D3CD9}"
+	ProjectSection(SolutionItems) = preProject
+		Config-FineCodeCoverage-Exclude.png = Config-FineCodeCoverage-Exclude.png
+		Config-FineCodeCoverage-MSTest.png = Config-FineCodeCoverage-MSTest.png
+		Config-FineCodeCoverage.png = Config-FineCodeCoverage.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
