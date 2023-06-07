@@ -5,19 +5,18 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{277C35BD-4BF3-47E6-A94C-783F87DA237A}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>ConsoleEFApp</RootNamespace>
-    <AssemblyName>ConsoleEFApp</AssemblyName>
+    <ProjectGuid>{02A612E5-1E2F-4BFE-B483-D98246E40181}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RepositoryLayer</RootNamespace>
+    <AssemblyName>RepositoryLayer</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -27,7 +26,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -53,35 +51,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\MainModel.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="IQueryableExtensions.cs" />
+    <Compile Include="Repository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataLayer\DataLayer.csproj">
+      <Project>{4967600f-6ef3-4a05-80d6-e466200775c9}</Project>
+      <Name>DataLayer</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DataLayer\DataLayer.csproj">
-      <Project>{4967600F-6EF3-4A05-80D6-E466200775C9}</Project>
-      <Name>DataLayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DtoLayer\DtoLayer.csproj">
-      <Project>{1B58B99D-5DBA-46DF-BA82-D6F612E2D391}</Project>
-      <Name>DtoLayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EntitiesLayer\EntitiesLayer.csproj">
-      <Project>{7620E827-E1B2-4847-983F-7DEFF4EDEE8E}</Project>
-      <Name>EntitiesLayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RepositoryLayer\RepositoryLayer.csproj">
-      <Project>{02a612e5-1e2f-4bfe-b483-d98246e40181}</Project>
-      <Name>RepositoryLayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ServiceLayer\ServiceLayer.csproj">
-      <Project>{8a83faf3-eb0a-42af-9fc6-bc695d94eb39}</Project>
-      <Name>ServiceLayer</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
