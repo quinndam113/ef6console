@@ -3,8 +3,8 @@
 EF6.0 .Net Framework with MSTest + Coverage by Fine code Coverages
 
 Some Config
-![alt Exclude]([[http://url/to/img.png](https://github.com/quinndam113/ef6console/blob/master/Config-FineCodeCoverage-Exclude.png?raw=true](https://github.com/quinndam113/ef6console/blob/master/Config-FineCodeCoverage.png)))
+![Coverage](https://github.com/quinndam113/ef6console/raw/master/Config-FineCodeCoverage-Exclude.png)
 
-![alt MSTest]([[http://url/to/img.png](https://github.com/quinndam113/ef6console/blob/master/Config-FineCodeCoverage-Exclude.png?raw=true](https://github.com/quinndam113/ef6console/blob/master/Config-FineCodeCoverage-MSTest.png?raw=true)))
+![Coverage](https://github.com/quinndam113/ef6console/raw/master/Config-FineCodeCoverage-MSTest.png)
 
-![alt Exclude]([[http://url/to/img.png](https://github.com/quinndam113/ef6console/blob/master/Config-FineCodeCoverage-Exclude.png?raw=true](https://github.com/quinndam113/ef6console/blob/master/Config-FineCodeCoverage.png?raw=true)))
+![Coverage](https://github.com/quinndam113/ef6console/raw/master/Config-FineCodeCoverage.png)
