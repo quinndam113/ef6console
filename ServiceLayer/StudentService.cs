@@ -3,6 +3,7 @@ using EntitiesLayer;
 using RepositoryLayer;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,7 +21,7 @@ namespace ServiceLayer
 
         public Task<List<StudentGradeDto>> GetStudentGradesAsync()
         {
-            return _studentRepo.Queryable().LeftJoin(_gradeRepo.Queryable(),
+            var query = _studentRepo.Queryable().LeftJoin(_gradeRepo.Queryable(),
                     student => student.GradeId,
                     grade => grade.GradeId,
                    (student, grade) => new
@@ -35,6 +36,10 @@ namespace ServiceLayer
                        GradeName = x.GradeName
                    })
                    .ToListAsync();
+
+            Debug.Write(query);
+
+            return query;
         }
 
         public async Task<StudentDto> GetStudentById(int id)
