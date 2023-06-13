@@ -56,15 +56,19 @@ namespace ServiceLayer
 
             if (student != null)
             {
-                student.StudentName = stu.StudentName;
-                student.GradeId = stu.GradeId;
+                var clone = student.CloneObject<Student>();
+
+                clone.StudentName = stu.StudentName;
+                clone.GradeId = stu.GradeId;
+
+                _studentRepo.Update(student, clone);
+
+                await _studentRepo.SaveChangeAsync();
+
+                return stu;
             }
 
-            _studentRepo.Update(stu.StudentID, student);
-
-            await _studentRepo.SaveChangeAsync();
-
-            return stu;
+            return null;
         }
     }
 }

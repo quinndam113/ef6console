@@ -35,6 +35,13 @@ namespace RepositoryLayer
             _context.Entry(originObj).CurrentValues.SetValues(updatedObj);
         }
 
+        public void Update(T originObj, T entity)
+        {
+            var updatedObj = CheckUpdateObject(originObj, entity);
+
+            _context.Entry(originObj).CurrentValues.SetValues(updatedObj);
+        }
+
         private object CheckUpdateObject(object originalObj, object updateObj)
         {
             foreach (var property in updateObj.GetType().GetProperties())

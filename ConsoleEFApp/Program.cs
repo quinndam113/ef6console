@@ -30,12 +30,9 @@ namespace ConsoleEFApp
                 Console.WriteLine($"{content.StudentName} - {content.StudentID}");
             }
 
-
-
             var stu = await studentService.GetStudentById(2);
-
-            stu.StudentName = "Student 8";
-            stu.GradeId = 2;
+            stu.StudentName = "Student 10";
+            stu.GradeId = 1;
 
             await studentService.UpdateStudent(stu);
 
