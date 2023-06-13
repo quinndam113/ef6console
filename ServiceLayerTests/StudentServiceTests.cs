@@ -22,7 +22,8 @@ namespace ServiceLayerTests
         {
             students = new List<Student> {
                 new Student { StudentID = 1, StudentName = "Hieu", GradeId = 1},
-                new Student { StudentID = 2, StudentName = "Huy", GradeId = 1}
+                new Student { StudentID = 2, StudentName = "Huy", GradeId = 1},
+                new Student { StudentID = 3, StudentName = "Dam"},
             }.AsQueryable();
 
             grades = new List<Grade> {
@@ -73,7 +74,7 @@ namespace ServiceLayerTests
 
             var service = new StudentService(gradeRepo, studentRepo);
 
-            var result = await service.GetStudentGrades();
+            var result = await service.GetStudentGradesAsync();
 
             Assert.IsTrue(result.Any());
         }

@@ -23,7 +23,7 @@ namespace ConsoleEFApp
 
             var studentService = new StudentService(gradeRepo,studentRepo);
 
-            var contents = await studentService.GetStudentGrades();
+            var contents = await studentService.GetStudentGradesAsync();
 
             foreach (var content in contents)
             {

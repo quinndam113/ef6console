@@ -18,24 +18,33 @@ namespace ServiceLayer
             _studentRepo = studentRepo;
         }
 
-        public Task<List<StudentGradeDto>> GetStudentGrades()
+        public Task<List<StudentGradeDto>> GetStudentGradesAsync()
         {
             return _studentRepo.Queryable().LeftJoin(_gradeRepo.Queryable(),
                     student => student.GradeId,
                     grade => grade.GradeId,
-                   (student, grade) => new { student, grade })
-                   .Select(x => new StudentGradeDto { StudentID = x.student.StudentID, StudentName = x.student.StudentName,  GradeName = x.grade.GradeName, GradeId = x.grade.GradeId })
+                   (student, grade) => new
+                   {
+                       student,
+                       GradeName = grade != null ? grade.GradeName : ""
+                   })
+                   .Select(x => new StudentGradeDto
+                   {
+                       StudentID = x.student.StudentID,
+                       StudentName = x.student.StudentName,
+                       GradeName = x.GradeName
+                   })
                    .ToListAsync();
         }
 
         public async Task<StudentDto> GetStudentById(int id)
         {
-            if(id == 0)
+            if (id == 0)
             {
                 return null;
             }
 
-            return await _studentRepo.Queryable().Where(x => x.StudentID == id).Select(x => new StudentDto { StudentID = x.StudentID, StudentName = x.StudentName }).FirstOrDefaultAsync();    
+            return await _studentRepo.Queryable().Where(x => x.StudentID == id).Select(x => new StudentDto { StudentID = x.StudentID, StudentName = x.StudentName }).FirstOrDefaultAsync();
         }
     }
 }
