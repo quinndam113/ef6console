@@ -60,6 +60,10 @@ namespace ServiceLayer
                 student.GradeId = stu.GradeId;
             }
 
+            _studentRepo.Update(stu.StudentID, student);
+
+            await _studentRepo.SaveChangeAsync();
+
             return stu;
         }
     }

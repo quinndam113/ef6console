@@ -2,6 +2,7 @@
 using System;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace RepositoryLayer
 {
@@ -15,18 +16,23 @@ namespace RepositoryLayer
             _dbSet = _context.Set<T>();
         }
 
+        public Task<int> SaveChangeAsync()
+        {
+            return _context.SaveChangesAsync();
+        }
+
         public IQueryable<T> Queryable()
         {
             return _dbSet;
         }
 
-        public void Update(T entity)
+        public void Update(object key,T entity)
         {
-            var oldobj = _dbSet.Find(entity);
+            var originObj = _dbSet.Find(key);
 
-            var UpdatedObj = CheckUpdateObject(oldobj, entity);
+            var updatedObj = CheckUpdateObject(originObj, entity);
 
-            _context.Entry(oldobj).CurrentValues.SetValues(UpdatedObj);
+            _context.Entry(originObj).CurrentValues.SetValues(updatedObj);
         }
 
         private object CheckUpdateObject(object originalObj, object updateObj)
@@ -38,6 +44,7 @@ namespace RepositoryLayer
                     property.SetValue(updateObj, originalObj.GetType().GetProperty(property.Name).GetValue(originalObj, null));
                 }
             }
+
             return updateObj;
         }
     }
