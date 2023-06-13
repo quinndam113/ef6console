@@ -21,14 +21,25 @@ namespace ConsoleEFApp
             var studentRepo = new Repository<Student>(ctx);
             var gradeRepo = new Repository<Grade>(ctx);
 
-            var studentService = new StudentService(gradeRepo,studentRepo);
+            var studentService = new StudentService(gradeRepo, studentRepo);
 
             var contents = await studentService.GetStudentGradesAsync();
 
             foreach (var content in contents)
             {
-                Console.WriteLine($"{content.StudentName} - {content.GradeName}");
+                Console.WriteLine($"{content.StudentName} - {content.StudentID}");
             }
+
+
+
+            var stu = await studentService.GetStudentById(2);
+
+            stu.StudentName = "Student 6";
+            //stu.GradeId = 2;
+
+            await studentService.UpdateStudent(stu);
+
+            await ctx.SaveChangesAsync();
 
             Console.ReadLine();
         }

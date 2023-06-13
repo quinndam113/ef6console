@@ -19,5 +19,6 @@ namespace DtoLayer
     {
         public int StudentID { get; set; }
         public string StudentName { get; set; }
+        public int GradeId { get; set;}
     }
 }

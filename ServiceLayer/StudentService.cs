@@ -3,7 +3,6 @@ using EntitiesLayer;
 using RepositoryLayer;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -34,12 +33,9 @@ namespace ServiceLayer
                        StudentID = x.student.StudentID,
                        StudentName = x.student.StudentName,
                        GradeName = x.GradeName
-                   })
-                   .ToListAsync();
+                   }).AsNoTracking();
 
-            Debug.Write(query);
-
-            return query;
+            return query.ToListAsync();
         }
 
         public async Task<StudentDto> GetStudentById(int id)
@@ -49,7 +45,22 @@ namespace ServiceLayer
                 return null;
             }
 
-            return await _studentRepo.Queryable().Where(x => x.StudentID == id).Select(x => new StudentDto { StudentID = x.StudentID, StudentName = x.StudentName }).FirstOrDefaultAsync();
+            return await _studentRepo.Queryable().Where(x => x.StudentID == id)
+                                                 .Select(x => new StudentDto { StudentID = x.StudentID, StudentName = x.StudentName, GradeId = x.GradeId })
+                                                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<StudentDto> UpdateStudent(StudentDto stu)
+        {
+            var student = await _studentRepo.Queryable().FirstOrDefaultAsync(x => x.StudentID == stu.StudentID);
+
+            if (student != null)
+            {
+                student.StudentName = stu.StudentName;
+                student.GradeId = stu.GradeId;
+            }
+
+            return stu;
         }
     }
 }
