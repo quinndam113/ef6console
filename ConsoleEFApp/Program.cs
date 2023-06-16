@@ -1,4 +1,4 @@
-﻿using ConsoleEFApp.Models;
+﻿
 using DataLayer;
 using EntitiesLayer;
 using RepositoryLayer;
@@ -31,11 +31,15 @@ namespace ConsoleEFApp
             }
 
             var stu = await studentService.GetStudentById(2);
-            stu.StudentName = "Student 10";
-            stu.GradeId = 1;
+            if (stu != null)
+            {
+                stu.StudentName = "Student 10";
+                stu.GradeId = 1;
 
-            await studentService.UpdateStudent(stu);
+                await studentService.UpdateStudent(stu);
+            }
 
+            Console.WriteLine("Done");
             Console.ReadLine();
         }
     }
