@@ -1,3 +1,5 @@
+========================================================================
+
 //_context.Entry(entity).State = EntityState.Modified;
 
 UPDATE [dbo].[Students]
@@ -19,11 +21,9 @@ WHERE ([StudentID] = @4)
 -- Completed in 10 ms with result: 1
 
 
+========================================================================
 
-
-========
- _context.Entry(entity).CurrentValues.SetValues(updateValueDto);
-
+ //_context.Entry(entity).CurrentValues.SetValues(updateValueDto);
 
 UPDATE [dbo].[Students]
 SET [Height] = @0
@@ -36,7 +36,3 @@ WHERE ([StudentID] = @1)
 -- Executing asynchronously at 6/30/2023 10:12:00 PM +07:00
 
 -- Completed in 2 ms with result: 1
-
-
-===== 
-
