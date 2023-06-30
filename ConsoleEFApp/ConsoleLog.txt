@@ -1,6 +1,6 @@
 ========================================================================
-
-//_context.Entry(entity).State = EntityState.Modified;
+// MarkAsChanged in Repository - Logistics
+// _context.Entry(entity).State = EntityState.Modified;
 
 UPDATE [dbo].[Students]
 SET [StudentName] = @0, [DateOfBirth] = NULL, [Photo] = NULL, [Height] = @1, [Weight] = @2, [GradeId] = @3
@@ -22,8 +22,7 @@ WHERE ([StudentID] = @4)
 
 
 ========================================================================
-
- //_context.Entry(entity).CurrentValues.SetValues(updateValueDto);
+// _context.Entry(entity).CurrentValues.SetValues(updateValueDto);
 
 UPDATE [dbo].[Students]
 SET [Height] = @0
