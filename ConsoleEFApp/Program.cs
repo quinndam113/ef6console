@@ -4,11 +4,6 @@ using EntitiesLayer;
 using RepositoryLayer;
 using ServiceLayer;
 using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace ConsoleEFApp
@@ -23,21 +18,35 @@ namespace ConsoleEFApp
 
             var studentService = new StudentService(gradeRepo, studentRepo);
 
-            var contents = await studentService.GetStudentGradesAsync();
-
-            foreach (var content in contents)
+            var stu = new DtoLayer.StudentDto
             {
-                Console.WriteLine($"{content.StudentName} - {content.StudentID}");
-            }
+                StudentID = 2,
+                StudentName = "Student 20",
+                GradeId = 1,
+                Pro = "123",
+                Height = 400
+            };
 
-            var stu = await studentService.GetStudentById(2);
-            if (stu != null)
-            {
-                stu.StudentName = "Student 10";
-                stu.GradeId = 1;
+            // DEMO
 
-                await studentService.UpdateStudent(stu);
-            }
+            //case 1 - problem inside Logistics
+            await studentService.UpdateAsync(stu);
+            //case 1
+
+            //case 2 update MarkAsChanged & diffUpdate
+            //stu.Height = 500;
+            //await studentService.DiffUpdateAsync(stu);
+            //end case 2
+
+
+            //NOTE: AsNoTracking Update should becarefull if another Entity Attactted to DbContext current Scope.
+            ////case 3 update asNoTracking
+            //await studentService.UpdateNoTrackingAsync(stu);
+            ////end case 3
+
+            ////case 4 update asNoTracking diff
+            //await studentService.DiffUpdateNoTrackingAsync(stu);
+            ////end case 4
 
             Console.WriteLine("Done");
             Console.ReadLine();

@@ -1,4 +1,5 @@
 ﻿using EntitiesLayer;
+using System;
 using System.Data.Entity;
 using System.Runtime.Remoting.Contexts;
 
@@ -8,7 +9,7 @@ namespace DataLayer
     {
         public SchoolContext() : base("name=SchoolDBConnectionString")
         {
-            Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
+            Database.Log = s => Console.WriteLine(s);
         }
 
         public virtual DbSet<Student> Students { get; set; }

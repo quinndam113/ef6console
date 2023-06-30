@@ -20,5 +20,8 @@ namespace DtoLayer
         public int StudentID { get; set; }
         public string StudentName { get; set; }
         public int GradeId { get; set;}
+        public string Pro { get; set; }
+
+        public decimal Height { get; set; }
     }
 }

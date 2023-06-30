@@ -1,8 +1,9 @@
 ﻿using DataLayer;
-using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using static System.Collections.Specialized.BitVector32;
 
 namespace RepositoryLayer
 {
@@ -26,33 +27,76 @@ namespace RepositoryLayer
             return _dbSet;
         }
 
-        public void Update(object key,T entity)
+        public IQueryable<T> QueryableNoTracking()
         {
-            var originObj = _dbSet.Find(key);
-
-            var updatedObj = CheckUpdateObject(originObj, entity);
-
-            _context.Entry(originObj).CurrentValues.SetValues(updatedObj);
+            return _dbSet.AsNoTracking();
         }
 
-        public void Update(T originObj, T entity)
+        public T Add(T entity)
         {
-            var updatedObj = CheckUpdateObject(originObj, entity);
+            _dbSet.Add(entity);
 
-            _context.Entry(originObj).CurrentValues.SetValues(updatedObj);
+            return entity;
         }
 
-        private object CheckUpdateObject(object originalObj, object updateObj)
+        public void MarkAsChanged(T entity)
         {
-            foreach (var property in updateObj.GetType().GetProperties())
+            _context.Entry(entity).State = EntityState.Modified;
+        }
+
+        public void MarkAsChangedNotracking(T entity)
+        {
+            _dbSet.Attach(entity);
+            _context.Entry(entity).State = EntityState.Modified;
+        }
+
+        //should use when do not att
+        public List<ObjectDiff> UpdateDiffNotracking(T entity, object updateValueDto)
+        {
+            var diff = CheckUpdateObject(entity, updateValueDto);
+
+           _dbSet.Attach(entity);
+
+            _context.Entry(entity).CurrentValues.SetValues(updateValueDto);
+
+            return diff;
+        }
+
+        public List<ObjectDiff> UpdateDiff(T entity, object updateValueDto)
+        {
+            var shouldSaveChanges = CheckUpdateObject(entity, updateValueDto);
+            _context.Entry(entity).CurrentValues.SetValues(updateValueDto);
+
+            return shouldSaveChanges;
+        }
+
+        private List<ObjectDiff> CheckUpdateObject(object originalObj, object updateObj)
+        {
+            var items = new List<ObjectDiff>();
+
+            foreach (var updateProperty in updateObj.GetType().GetProperties())
             {
-                if (property.GetValue(updateObj, null) == null)
+                var originProp = originalObj.GetType().GetProperty(updateProperty.Name);
+
+                if(originProp == null) continue; //bypass do not exists property.
+
+                var originPropValue = originProp.GetValue(originalObj, null);
+                var updatePropValue = updateProperty.GetValue(updateObj, null);
+
+                if (updatePropValue != originPropValue)
                 {
-                    property.SetValue(updateObj, originalObj.GetType().GetProperty(property.Name).GetValue(originalObj, null));
+                    items.Add(new ObjectDiff { Name = originProp.Name, OldValue = originPropValue, NewValue = updatePropValue });
                 }
             }
 
-            return updateObj;
+            return items;
         }
+    }
+
+    public class ObjectDiff
+    {
+        public string Name { get; set; }
+        public object OldValue { get; set; }
+        public object NewValue { get; set; }
     }
 }

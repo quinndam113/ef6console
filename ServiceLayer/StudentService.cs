@@ -18,6 +18,21 @@ namespace ServiceLayer
             _studentRepo = studentRepo;
         }
 
+        public async Task<StudentDto> AddStudent(StudentDto stu)
+        {
+            var s = _studentRepo.Add(new Student
+            {
+                StudentName = stu.StudentName,
+                GradeId = stu.GradeId
+            });
+
+            await _studentRepo.SaveChangeAsync();
+
+            stu.StudentID = s.StudentID;
+
+            return stu;
+        }
+
         public Task<List<StudentGradeDto>> GetStudentGradesAsync()
         {
             var query = _studentRepo.Queryable().LeftJoin(_gradeRepo.Queryable(),
@@ -47,25 +62,69 @@ namespace ServiceLayer
 
             return await _studentRepo.Queryable().Where(x => x.StudentID == id)
                                                  .Select(x => new StudentDto { StudentID = x.StudentID, StudentName = x.StudentName, GradeId = x.GradeId })
+                                                 .AsNoTracking()
                                                  .FirstOrDefaultAsync();
         }
 
-        public async Task<StudentDto> UpdateStudent(StudentDto stu)
+        public async Task<StudentDto> UpdateAsync(StudentDto stu)
         {
             var student = await _studentRepo.Queryable().FirstOrDefaultAsync(x => x.StudentID == stu.StudentID);
 
             if (student != null)
             {
-                var clone = student.CloneObject<Student>();
+                student.StudentName = stu.StudentName;
+                student.GradeId = stu.GradeId;
+                student.Height = stu.Height;
 
-                clone.StudentName = stu.StudentName;
-                clone.GradeId = stu.GradeId;
-
-                _studentRepo.Update(student, clone);
+                _studentRepo.MarkAsChanged(student);
 
                 await _studentRepo.SaveChangeAsync();
+            }
 
-                return stu;
+            return null;
+        }
+
+        public async Task<StudentDto> DiffUpdateAsync(StudentDto stu)
+        {
+            var student = await _studentRepo.Queryable().FirstOrDefaultAsync(x => x.StudentID == stu.StudentID);
+
+            if (student != null)
+            {
+                _studentRepo.UpdateDiff(student, stu);
+
+                await _studentRepo.SaveChangeAsync();
+            }
+
+            return null;
+        }
+
+        public async Task<StudentDto> UpdateNoTrackingAsync(StudentDto stu)
+        {
+            var student = await _studentRepo.QueryableNoTracking().FirstOrDefaultAsync(x => x.StudentID == stu.StudentID);
+
+            if (student != null)
+            {
+                student.StudentName = stu.StudentName;
+                student.GradeId = stu.GradeId;
+                student.Height = stu.Height;
+
+                _studentRepo.MarkAsChangedNotracking(student);
+
+                await _studentRepo.SaveChangeAsync();
+            }
+
+            return null;
+        }
+
+        public async Task<StudentDto> DiffUpdateNoTrackingAsync(StudentDto stu)
+        {
+            var student = await _studentRepo.QueryableNoTracking().FirstOrDefaultAsync(x => x.StudentID == stu.StudentID);
+
+            if (student != null)
+            {
+                _studentRepo.UpdateDiffNotracking(student, stu);
+
+                await _studentRepo.SaveChangeAsync();
             }
 
             return null;

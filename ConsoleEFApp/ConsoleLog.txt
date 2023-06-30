@@ -1,0 +1,42 @@
+//_context.Entry(entity).State = EntityState.Modified;
+
+UPDATE [dbo].[Students]
+SET [StudentName] = @0, [DateOfBirth] = NULL, [Photo] = NULL, [Height] = @1, [Weight] = @2, [GradeId] = @3
+WHERE ([StudentID] = @4)
+
+-- @0: 'Student 20' (Type = String, Size = -1)
+
+-- @1: '400' (Type = Decimal, Precision = 18, Scale = 2)
+
+-- @2: '0' (Type = Single)
+
+-- @3: '1' (Type = Int32)
+
+-- @4: '2' (Type = Int32)
+
+-- Executing asynchronously at 6/30/2023 10:12:00 PM +07:00
+
+-- Completed in 10 ms with result: 1
+
+
+
+
+========
+ _context.Entry(entity).CurrentValues.SetValues(updateValueDto);
+
+
+UPDATE [dbo].[Students]
+SET [Height] = @0
+WHERE ([StudentID] = @1)
+
+-- @0: '500' (Type = Decimal, Precision = 18, Scale = 2)
+
+-- @1: '2' (Type = Int32)
+
+-- Executing asynchronously at 6/30/2023 10:12:00 PM +07:00
+
+-- Completed in 2 ms with result: 1
+
+
+===== 
+
