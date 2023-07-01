@@ -46,9 +46,9 @@ namespace ConsoleEFApp
                 Height = orginStu.Height
             };
 
-            //case 0 - Normal way
-            await studentService.UpdateNormalWayAsync(stu);
-            //end case 0
+            ////case 0 - Normal way
+            //await studentService.UpdateNormalWayAsync(stu);
+            ////end case 0
 
 
 
@@ -143,12 +143,12 @@ namespace ConsoleEFApp
             // Its look like JsonPatch way use for [HttpPatch] Mr.Cuong present before.
 
 
-            ////mix case 1 & 2
-            //await studentService.LogiscticUpdateAsync(stu); //update all field
+            //mix case 1 & 2
+            await studentService.LogiscticUpdateAsync(stu); //update all field
 
-            //stu.Height = 500;
-            //await studentService.DiffUpdateAsync(stu); // update Height only
-            ////end mix case 1 & 2
+            stu.Height = 500;
+            await studentService.DiffUpdateAsync(stu); // update Height only
+            //end mix case 1 & 2
 
 
 
