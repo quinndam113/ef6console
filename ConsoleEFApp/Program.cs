@@ -86,9 +86,8 @@ namespace ConsoleEFApp
 
 
 
-
-
-
+            //In the furture, needed to define UpdateDTO only, contains which field really to be edited only.
+            // Its look like JsonPatch way use for [HttpPatch] Mr.Cuong present before.
 
 
             ////mix case 1 & 2
