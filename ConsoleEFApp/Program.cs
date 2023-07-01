@@ -18,6 +18,9 @@ namespace ConsoleEFApp
 
             var studentService = new StudentService(gradeRepo, studentRepo);
 
+            // PREPARE DATA
+            string sameStudentName = "Student 20";
+
             var orginStu = await studentService.GetLatestStudentAsync();
             if (orginStu != null)
             {
@@ -26,35 +29,74 @@ namespace ConsoleEFApp
             else  {
                 orginStu = await studentService.AddStudent(new DtoLayer.StudentDto
                 {
-                    StudentName = "Student 20",
+                    StudentName = sameStudentName,
                     GradeId = 1
                 });
             }
 
+            // GET STARTED
+
             var stu = new DtoLayer.StudentDto
             {
                 StudentID = orginStu.StudentID,
-                StudentName = "Student 20",
+                StudentName = sameStudentName,
                 GradeId = 1,
                 Pro = "123",
-                Height = 400
+                Height = 400 // <== Wantted update only
             };
 
-            // DEMO
+            ////case 0 - Normal way
+            //await studentService.UpdateNormalWayAsync(stu);
+            ////end case 0
 
-            ////case 1 - problem inside Logistics
-            //await studentService.UpdateAsync(stu);
+            ////case 1 - Logistics way - MarkAsChanged
+            //await studentService.LogiscticUpdateAsync(stu);
             ////case 1
 
-            ////case 2 update MarkAsChanged & diffUpdate
-            //await studentService.DiffUpdateAsync(stu);
-            ////end case 2
+            //case 2 - DiffUpdate way
+            await studentService.DiffUpdateAsync(stu);
+            //end case 2
 
-            //mix case 1 & 2
-            await studentService.UpdateAsync(stu); //update all field
-            stu.Height = 500;
-            await studentService.DiffUpdateAsync(stu); // update Height only
-                                                       //end mix case 1 & 2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            // _context.Entry(entity).CurrentValues.SetValues(updateValueDto);
+            // Summary:
+            //     Sets the values of this dictionary by reading values out of the given object.
+            //     The given object can be of any type. Any property on the object with a name that
+            //     matches a property name in the dictionary and can be read will be read. Other
+            //     properties will be ignored. This allows, for example, copying of properties from
+            //     simple Data Transfer Objects (DTOs).
+
+
+
+
+
+
+
+
+            ////mix case 1 & 2
+            //await studentService.LogiscticUpdateAsync(stu); //update all field
+
+            //stu.Height = 500;
+            //await studentService.DiffUpdateAsync(stu); // update Height only
+            ////end mix case 1 & 2
 
 
 
@@ -102,8 +144,8 @@ namespace ConsoleEFApp
             //Update an untracking Object after get with .AsNoTracking(). 
 
             //NOTE: AsNoTracking Update should becarefull if another Entity Attactted to DbContext current Scope.
-            
-            
+
+
             ////case 3 update asNoTracking
             //await studentService.UpdateNoTrackingAsync(stu);
             ////end case 3

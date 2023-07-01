@@ -76,7 +76,23 @@ namespace ServiceLayer
                         .FirstOrDefaultAsync();
         }
 
-        public async Task<StudentDto> UpdateAsync(StudentDto stu)
+        public async Task<StudentDto> UpdateNormalWayAsync(StudentDto stu)
+        {
+            var student = await _studentRepo.Queryable().FirstOrDefaultAsync(x => x.StudentID == stu.StudentID);
+
+            if (student != null)
+            {
+                student.StudentName = stu.StudentName;
+                student.GradeId = stu.GradeId;
+                student.Height = stu.Height;
+
+                await _studentRepo.SaveChangeAsync();
+            }
+
+            return null;
+        }
+
+        public async Task<StudentDto> LogiscticUpdateAsync(StudentDto stu)
         {
             var student = await _studentRepo.Queryable().FirstOrDefaultAsync(x => x.StudentID == stu.StudentID);
 
