@@ -35,27 +35,78 @@ namespace ConsoleEFApp
             }
 
             // GET STARTED
-
+            var rand = new Random();
             var stu = new DtoLayer.StudentDto
             {
                 StudentID = orginStu.StudentID,
                 StudentName = sameStudentName,
                 GradeId = 1,
                 Pro = "123",
-                Height = 400 // <== Wantted update only
+                Height = rand.Next() // <== Wantted update only
             };
 
-            ////case 0 - Normal way
-            //await studentService.UpdateNormalWayAsync(stu);
-            ////end case 0
+            //case 0 - Normal way
+            await studentService.UpdateNormalWayAsync(stu);
+            //end case 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             ////case 1 - Logistics way - MarkAsChanged
             //await studentService.LogiscticUpdateAsync(stu);
-            ////case 1
+            ////end case 1
 
-            //case 2 - DiffUpdate way
-            await studentService.DiffUpdateAsync(stu);
-            //end case 2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            ////case 2 - DiffUpdate way
+            //await studentService.DiffUpdateAsync(stu);
+            ////end case 2
+
 
 
 
