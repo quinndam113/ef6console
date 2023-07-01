@@ -1,4 +1,6 @@
 ﻿using DataLayer;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -64,10 +66,10 @@ namespace RepositoryLayer
 
         public List<ObjectDiff> UpdateDiff(T entity, object updateValueDto)
         {
-            var shouldSaveChanges = CheckUpdateObject(entity, updateValueDto);
+            var diff = CheckUpdateObject(entity, updateValueDto);
             _context.Entry(entity).CurrentValues.SetValues(updateValueDto);
 
-            return shouldSaveChanges;
+            return diff;
         }
 
         private List<ObjectDiff> CheckUpdateObject(object originalObj, object updateObj)
@@ -83,10 +85,17 @@ namespace RepositoryLayer
                 var originPropValue = originProp.GetValue(originalObj, null);
                 var updatePropValue = updateProperty.GetValue(updateObj, null);
 
-                if (updatePropValue != originPropValue)
+                if (!updatePropValue.Equals( originPropValue))
                 {
                     items.Add(new ObjectDiff { Name = originProp.Name, OldValue = originPropValue, NewValue = updatePropValue });
                 }
+            }
+
+            if(items.Any())
+            {
+                Console.WriteLine("================ DIFF ============\n");
+                Console.WriteLine(JsonConvert.SerializeObject(items));
+                Console.WriteLine("\n================ END DIFF ============");
             }
 
             return items;

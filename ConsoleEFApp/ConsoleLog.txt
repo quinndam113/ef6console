@@ -35,3 +35,10 @@ WHERE ([StudentID] = @1)
 -- Executing asynchronously at 6/30/2023 10:12:00 PM +07:00
 
 -- Completed in 2 ms with result: 1
+
+
+================ DIFF ============
+
+[{"Name":"Height","OldValue":400.0,"NewValue":500.0}]
+
+================ END DIFF ============

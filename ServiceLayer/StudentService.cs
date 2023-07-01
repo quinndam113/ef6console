@@ -53,7 +53,7 @@ namespace ServiceLayer
             return query.ToListAsync();
         }
 
-        public async Task<StudentDto> GetStudentById(int id)
+        public async Task<StudentDto> GetStudentByIdAsync(int id)
         {
             if (id == 0)
             {
@@ -64,6 +64,16 @@ namespace ServiceLayer
                                                  .Select(x => new StudentDto { StudentID = x.StudentID, StudentName = x.StudentName, GradeId = x.GradeId })
                                                  .AsNoTracking()
                                                  .FirstOrDefaultAsync();
+        }
+
+        public Task<StudentDto> GetLatestStudentAsync()
+        {
+
+            return  _studentRepo.Queryable()
+                        .OrderByDescending(x => x.StudentID)
+                        .Select(x => new StudentDto { StudentID = x.StudentID, StudentName = x.StudentName, GradeId = x.GradeId })
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync();
         }
 
         public async Task<StudentDto> UpdateAsync(StudentDto stu)

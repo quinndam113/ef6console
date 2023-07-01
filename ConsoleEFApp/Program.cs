@@ -18,9 +18,22 @@ namespace ConsoleEFApp
 
             var studentService = new StudentService(gradeRepo, studentRepo);
 
+            var orginStu = await studentService.GetLatestStudentAsync();
+            if (orginStu != null)
+            {
+                Console.WriteLine($"Origin Object: {orginStu.StudentID}  {orginStu.StudentName}");
+            }
+            else  {
+                orginStu = await studentService.AddStudent(new DtoLayer.StudentDto
+                {
+                    StudentName = "Student 20",
+                    GradeId = 1
+                });
+            }
+
             var stu = new DtoLayer.StudentDto
             {
-                StudentID = 2,
+                StudentID = orginStu.StudentID,
                 StudentName = "Student 20",
                 GradeId = 1,
                 Pro = "123",
@@ -29,17 +42,68 @@ namespace ConsoleEFApp
 
             // DEMO
 
-            //case 1 - problem inside Logistics
-            await studentService.UpdateAsync(stu);
-            //case 1
+            ////case 1 - problem inside Logistics
+            //await studentService.UpdateAsync(stu);
+            ////case 1
 
-            //case 2 update MarkAsChanged & diffUpdate
-            //stu.Height = 500;
+            ////case 2 update MarkAsChanged & diffUpdate
             //await studentService.DiffUpdateAsync(stu);
-            //end case 2
+            ////end case 2
 
+            //mix case 1 & 2
+            await studentService.UpdateAsync(stu); //update all field
+            stu.Height = 500;
+            await studentService.DiffUpdateAsync(stu); // update Height only
+                                                       //end mix case 1 & 2
+
+
+
+
+
+            //ONE MORE THING
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            //Update an untracking Object after get with .AsNoTracking(). 
 
             //NOTE: AsNoTracking Update should becarefull if another Entity Attactted to DbContext current Scope.
+            
+            
             ////case 3 update asNoTracking
             //await studentService.UpdateNoTrackingAsync(stu);
             ////end case 3

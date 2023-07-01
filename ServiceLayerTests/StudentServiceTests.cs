@@ -51,7 +51,7 @@ namespace ServiceLayerTests
             SetupData();
 
             var service = new StudentService(gradeRepo, studentRepo);
-            var result = await service.GetStudentById(0);
+            var result = await service.GetStudentByIdAsync(0);
 
             Assert.IsNull(result);
         }
@@ -62,7 +62,7 @@ namespace ServiceLayerTests
             SetupData();
 
             var service = new StudentService(gradeRepo, studentRepo);
-            var result = await service.GetStudentById(1);
+            var result = await service.GetStudentByIdAsync(1);
 
             Assert.IsNotNull(result);
         }
