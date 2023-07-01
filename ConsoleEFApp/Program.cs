@@ -143,12 +143,12 @@ namespace ConsoleEFApp
             // Its look like JsonPatch way use for [HttpPatch] Mr.Cuong present before.
 
 
-            //mix case 1 & 2
-            await studentService.LogiscticUpdateAsync(stu); //update all field
+            ////mix case 1 & 2
+            //await studentService.LogiscticUpdateAsync(stu); //update all field
 
-            stu.Height = 500;
-            await studentService.DiffUpdateAsync(stu); // update Height only
-            //end mix case 1 & 2
+            //stu.Height = 500;
+            //await studentService.DiffUpdateAsync(stu); // update Height only
+            ////end mix case 1 & 2
 
 
 
