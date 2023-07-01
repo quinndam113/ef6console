@@ -80,9 +80,10 @@ namespace ConsoleEFApp
             // Summary:
             //     Sets the values of this dictionary by reading values out of the given object.
             //     The given object can be of any type. Any property on the object with a name that
-            //     matches a property name in the dictionary and can be read will be read. Other
-            //     properties will be ignored. This allows, for example, copying of properties from
-            //     simple Data Transfer Objects (DTOs).
+            //     matches a property name in the dictionary and can be read will be read.
+
+            //** Other properties will be ignored.
+            //   This allows, for example, copying of properties from simple Data Transfer Objects (DTOs).
 
 
 
