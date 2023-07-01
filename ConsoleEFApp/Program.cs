@@ -42,7 +42,8 @@ namespace ConsoleEFApp
                 StudentName = sameStudentName,
                 GradeId = 1,
                 Pro = "123",
-                Height = rand.Next() // <== Wantted update only
+                //Height = rand.Next() // <== Wantted update only
+                Height = orginStu.Height
             };
 
             //case 0 - Normal way
