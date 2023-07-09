@@ -134,7 +134,9 @@ namespace ServiceLayer
                 student.GradeId = stu.GradeId;
                 student.Height = stu.Height;
 
-                _studentRepo.MarkAsChangedNotracking(student);
+                var entity = _studentRepo.AttachedOrGet(x => x.StudentID == stu.StudentID, student);
+
+                _studentRepo.MarkAsChangedNotracking(entity);
 
                 await _studentRepo.SaveChangeAsync();
             }
@@ -148,7 +150,8 @@ namespace ServiceLayer
 
             if (student != null)
             {
-                _studentRepo.UpdateDiffNotracking(student, stu);
+                var entity = _studentRepo.AttachedOrGet(x => x.StudentID == stu.StudentID, student);
+                _studentRepo.UpdateDiff(entity, stu);
 
                 await _studentRepo.SaveChangeAsync();
             }

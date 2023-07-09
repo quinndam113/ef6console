@@ -42,7 +42,7 @@ namespace ConsoleEFApp
                 StudentName = sameStudentName,
                 GradeId = 1,
                 Pro = "123",
-                //Height = rand.Next() // <== Wantted update only
+                //Height = rand.Next(), // <== Wantted update only
                 Height = orginStu.Height
             };
 
@@ -198,12 +198,14 @@ namespace ConsoleEFApp
             //NOTE: AsNoTracking Update should becarefull if another Entity Attactted to DbContext current Scope.
 
 
-            ////case 3 update asNoTracking
-            //await studentService.UpdateNoTrackingAsync(stu);
-            ////end case 3
+            //case 3 update asNoTracking
+            stu.Height = rand.Next();
+            await studentService.UpdateNoTrackingAsync(stu);
+            //end case 3
 
             ////case 4 update asNoTracking diff
-            //await studentService.DiffUpdateNoTrackingAsync(stu);
+            stu.Height = rand.Next();
+            await studentService.DiffUpdateNoTrackingAsync(stu);
             ////end case 4
 
             Console.WriteLine("Done");

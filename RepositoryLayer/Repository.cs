@@ -48,20 +48,23 @@ namespace RepositoryLayer
 
         public void MarkAsChangedNotracking(T entity)
         {
-            _dbSet.Attach(entity);
-            _context.Entry(entity).State = EntityState.Modified;
+            if(entity!=null)
+            {
+                _context.Entry(entity).State = EntityState.Modified;
+            }
         }
 
-        //should use when do not att
-        public List<ObjectDiff> UpdateDiffNotracking(T entity, object updateValueDto)
+        public T AttachedOrGet(Func<T, bool> predicate, T entity)
         {
-            var diff = CheckUpdateObject(entity, updateValueDto);
+            var match = _dbSet.Local.FirstOrDefault(predicate);
+            if (match == null)
+            {
+                _dbSet.Attach(entity);
 
-           _dbSet.Attach(entity);
+                return entity;
+            }
 
-            _context.Entry(entity).CurrentValues.SetValues(updateValueDto);
-
-            return diff;
+            return match;
         }
 
         public List<ObjectDiff> UpdateDiff(T entity, object updateValueDto)
