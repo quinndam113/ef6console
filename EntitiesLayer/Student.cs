@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EntitiesLayer
 {
@@ -21,6 +18,8 @@ namespace EntitiesLayer
         public Grade Grade { get; set; }
     }
 
+
+    [Historyable()]
     public class Grade
     {
         public int GradeId { get; set; }
@@ -29,4 +28,14 @@ namespace EntitiesLayer
 
         public ICollection<Student> Students { get; set; }
     }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    public sealed class HistoryableAttribute : Attribute
+    {
+
+    }
+
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+    public sealed class UnHistoryableAttribute : Attribute
+    { }
 }
