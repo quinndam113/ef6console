@@ -12,10 +12,11 @@ namespace DataLayer
     {
         internal static bool ShouldBeAudited(this DbEntityEntry entry)
         {
-            return entry.State != EntityState.Detached && entry.State != EntityState.Unchanged &&
-                   !(entry.Entity is HistoryEntry) && !(entry.Entity is HistoryEntryChange) &&
-            entry.IsAuditable();
+            return entry.State != EntityState.Detached &&
+                entry.State != EntityState.Unchanged &&
+                entry.IsAuditable();
         }
+
         internal static bool IsAuditable(this DbEntityEntry entityEntry)
         {
             HistoryableAttribute enableAuditAttribute = (HistoryableAttribute)Attribute.GetCustomAttribute(entityEntry.Entity.GetType(), typeof(HistoryableAttribute));

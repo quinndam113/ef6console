@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EntitiesLayer
 {
+    [Historyable()]
     public class Student
     {
         public int StudentID { get; set; }
