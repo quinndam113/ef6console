@@ -51,7 +51,7 @@ namespace ConsoleEFApp
 
             var firstStu = studentRepo.Queryable().FirstOrDefault();
             firstStu.StudentName = $"{DateTime.Now:ddMMyyyyHHmmss} Student Name";
-            firstStu.GradeId = 8;
+            firstStu.GradeId = 7;
 
             ctx.SaveChanges();
 
@@ -63,7 +63,7 @@ namespace ConsoleEFApp
 
             foreach (var audit in audits)
             {
-                html += $"{audit.CreatedDate:HHmmss}\n";
+                html += $"{audit.CreatedDate:dd/MM/yyyy HH:mm:ss}\n";
                 var origin = audit.OldValues.ToAuditValues();
                 foreach (var auditValue in origin)
                 {
