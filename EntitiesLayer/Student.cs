@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EntitiesLayer
 {
-    [Historyable()]
+
     public class Student
     {
         public int StudentID { get; set; }
@@ -19,24 +19,81 @@ namespace EntitiesLayer
         public Grade Grade { get; set; }
     }
 
+    public class StudentAuditMap : HistoryableMap<Student>
+    {
+        public StudentAuditMap()
+        {
+            CreateForeignMap<Grade>(foreignKey: "GradeId", foreignDisplayProperty: "GradeName", caption: "Học Sinh");
 
-    [Historyable()]
+            SkipAudit("Height");
+        }
+    }
+
     public class Grade
     {
         public int GradeId { get; set; }
         public string GradeName { get; set; }
         public string Section { get; set; }
-
         public ICollection<Student> Students { get; set; }
     }
 
-    [AttributeUsage(AttributeTargets.Class)]
-    public sealed class HistoryableAttribute : Attribute
+    public class HistoryableMap<T>
     {
+        public List<HistoryableMapConfig> Maps { get; private set; }
+        public List<string> SkipAuditProperties { get; private set; }
 
+        public HistoryableMap()
+        {
+            Maps = new List<HistoryableMapConfig>();
+            SkipAuditProperties = new List<string>();
+        }
+
+        public void CreateForeignMap<TForeignEntity>(string foreignKey,
+            string foreignDisplayProperty,
+            string caption = null) where TForeignEntity : class
+        {
+            var typeName = typeof(T).Name;
+            var mapConfig = new HistoryableMapConfig
+            {
+                PropertyName = foreignKey,
+                DisplayName = caption ?? typeName,
+                ForeignEntityType = typeof(TForeignEntity),
+                ForeignEntityNameProperty = foreignDisplayProperty
+            };
+
+            Maps.Add(mapConfig);
+        }
+
+        //public void CreateMap<TForeignEntity>(Expression<Func<T, object>> property,
+        //    Expression<Func<TForeignEntity, object>> foreignproperty,
+        //    string displayName = null) where TForeignEntity: class
+        //{
+        //    var typeName = typeof(T).Name;
+        //    var propertyName = ((MemberExpression)property.Body).Member.Name;
+        //    var foreignEntityName = ((MemberExpression)foreignproperty.Body).Member.Name;
+
+        //    var mapConfig = new HistoryableMapConfig
+        //    {
+        //        PropertyName = propertyName,
+        //        DisplayName = displayName ?? typeName,
+        //        ForeignEntityType = typeof(TForeignEntity),
+        //        ForeignEntityNameProperty = foreignEntityName
+        //    };
+
+        //    Maps.Add(mapConfig);
+        //}
+
+        public void SkipAudit(string propertyName)
+        {
+            SkipAuditProperties.Add(propertyName);
+        }
     }
 
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-    public sealed class UnHistoryableAttribute : Attribute
-    { }
+    public class HistoryableMapConfig
+    {
+        public string PropertyName { get; set; }
+        public string DisplayName { get; set; }
+        public Type ForeignEntityType { get; set; }
+        public string ForeignEntityNameProperty { get; set; }
+    }
 }

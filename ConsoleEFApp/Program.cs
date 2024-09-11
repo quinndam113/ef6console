@@ -63,34 +63,39 @@ namespace ConsoleEFApp
 
             foreach (var audit in audits)
             {
-                html += $"{audit.CreatedDate:dd/MM/yyyy HH:mm:ss}\n";
-                var origin = audit.OldValues.ToAuditValues();
-                foreach (var auditValue in origin)
+                if(audit.EntityName == "Student")
                 {
-                    if(auditValue.PropertyName == "GradeId")
-                    {
-                        var value = FindAuditValue(ctx, audit.EntityName, auditValue);
-                        html += $"Origin-{auditValue.PropertyName}({auditValue.Value}): {value?.Name}\n";
-                    }
-                    else
-                    {
-                        html += $"Origin-{auditValue.PropertyName}: {auditValue.Value}\n";
-                    }
-                }
+                    var maps = AuditableExtensions.GetMaps(audit.EntityName);
 
-                var newV = audit.NewValues.ToAuditValues();
-                foreach (var auditValue in newV)
-                {
-                    if (auditValue.PropertyName == "GradeId")
+                    html += $"{audit.CreatedDate:dd/MM/yyyy HH:mm:ss}\n";
+                    var origin = audit.OldValues.ToAuditValues();
+                    foreach (var auditValue in origin)
                     {
-                        var value = FindAuditValue(ctx,audit.EntityName, auditValue);
-                        html += $"New-{auditValue.PropertyName}({auditValue.Value}): {value?.Name}\n";
-                    }
-                    else
-                    {
-                        html += $"New-{auditValue.PropertyName}: {auditValue.Value}\n";
+                        if (auditValue.PropertyName == "GradeId")
+                        {
+                            var value = FindAuditValue(ctx, audit.EntityName, auditValue);
+                            html += $"Origin-{auditValue.PropertyName}({auditValue.Value}): {value?.Name}\n";
+                        }
+                        else
+                        {
+                            html += $"Origin-{auditValue.PropertyName}: {auditValue.Value}\n";
+                        }
                     }
                 }
+                
+                //var newV = audit.NewValues.ToAuditValues();
+                //foreach (var auditValue in newV)
+                //{
+                //    if (auditValue.PropertyName == "GradeId")
+                //    {
+                //        var value = FindAuditValue(ctx,audit.EntityName, auditValue);
+                //        html += $"New-{auditValue.PropertyName}({auditValue.Value}): {value?.Name}\n";
+                //    }
+                //    else
+                //    {
+                //        html += $"New-{auditValue.PropertyName}: {auditValue.Value}\n";
+                //    }
+                //}
 
                 //var newAuditValue = audit.NewValues.ToAuditValues();
                 html += "================================\n\n";

@@ -54,7 +54,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HistoryAttribute.cs" />
     <Compile Include="HistoryEntryChange.cs" />
     <Compile Include="InternalExtensions.cs" />
     <Compile Include="SchoolContext.cs" />
